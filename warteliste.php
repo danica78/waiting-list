@@ -280,7 +280,7 @@ function warteliste_eingabeformular_shortcode() {
 
             // Führe eine AJAX-Anfrage zum Speichern der Formulardaten durch
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "<?php echo admin_url('admin-ajax.php'); ?>", true);
+            xhr.open("POST", "<?php echo plugins_url('warteliste.php'); ?>", true);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
