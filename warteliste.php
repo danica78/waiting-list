@@ -149,12 +149,13 @@ function speichern_warteliste_metabox($post_id)
 }
 add_action('save_post', 'speichern_warteliste_metabox');
 
-	session_start();
+
+session_start(); 
 // Erstelle eine benutzerdefinierte Shortcode-Funktion für die Eingabemaske
 function warteliste_eingabeformular_shortcode() {
 
     ob_start();
-   
+
    ?>
 
     <form method="post" action="" id="warteliste_form">
@@ -211,7 +212,6 @@ function warteliste_eingabeformular_shortcode() {
                 </label>
             </div>
         </div>
-
         <div class="mb-3">
             <label for="captcha" class="form-label">Bitte gib den angezeigten Code ein:</label>
             <input type="text" name="captcha" id="captcha" class="form-control">
@@ -266,21 +266,21 @@ function warteliste_eingabeformular_shortcode() {
 
             var captchaInput = document.getElementById("captcha");
 
-            // Überprüfe das Captcha
-            var captchaValue = captchaInput.value.toLowerCase();
-            var captchaText = "<?php echo $_SESSION['captcha']; ?>";
-            if (captchaValue !== captchaText) {
-                document.getElementById("validation-messages").innerHTML =
-                    '<div class="alert alert-danger">Das eingegebene Captcha ist ungültig.</div>';
-                return;
-            }
+			// Überprüfe das Captcha
+			var captchaValue = captchaInput.value;
+			var captchaText = "<?php echo $_SESSION['captcha']; ?>";
+			if (captchaValue !== captchaText) {
+				document.getElementById("validation-messages").innerHTML =
+					'<div class="alert alert-danger">Das eingegebene Captcha ist ungültig.</div>';
+				return;
+			}
 
             // Erstelle ein FormData-Objekt und füge die Formulardaten hinzu
             var formData = new FormData(this);
 
             // Führe eine AJAX-Anfrage zum Speichern der Formulardaten durch
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "", true);
+            xhr.open("POST", "<?php echo admin_url('admin-ajax.php'); ?>", true);
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -304,6 +304,8 @@ function warteliste_eingabeformular_shortcode() {
 add_shortcode('warteliste_formular', 'warteliste_eingabeformular_shortcode');
 
 // Verarbeite die Formulardaten
+
+
 function warteliste_formular_verarbeiten()
 {
     if (isset($_POST['vorname']) && isset($_POST['nachname']) && isset($_POST['geburtsdatum']) && isset($_POST['telefonnummer']) && isset($_POST['email'])) {
